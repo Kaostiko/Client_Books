@@ -15,6 +15,7 @@ import {
   Text,
   useColorScheme,
   View,
+  ImageBackground,
 } from 'react-native';
 
 import {
