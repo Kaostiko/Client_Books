@@ -10,9 +10,8 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <StatusBar />
+      <StatusBar style={styles.StatusBar} />
       <View style={styles.container}>
-        {/* <Text style={styles.text}>HOLA</Text> */}
         {showScreenA ? <Home /> : <AddBook />}
       </View>
       <Navigation setShowScreenA={setShowScreenA} showScreenA={showScreenA} />
@@ -27,8 +26,5 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-  },
-  text: {
-    color: colores.textPrimary,
   },
 });

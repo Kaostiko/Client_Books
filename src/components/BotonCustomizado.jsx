@@ -18,16 +18,16 @@ const BotonCustomizado = ({onPress, title, customBackgroundColor}) => {
 const styles = StyleSheet.create({
   button: {
     borderRadius: 30,
-    height: 40,
+    height: 30,
     width: 'auto',
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
-    marginVertical: 10,
+    marginVertical: 5,
   },
   buttonText: {
     color: colores.textPrimary,
-    fontSize: 28,
+    fontSize: 18,
   },
 });
 

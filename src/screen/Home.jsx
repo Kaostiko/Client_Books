@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   Alert,
+  ImageBackground,
 } from 'react-native';
 import axios from 'axios';
 import colores from '../utils/colores';
@@ -40,113 +41,104 @@ export const Home = () => {
     }
   };
 
-  const handleDelete = async bookId => {
-    try {
-      await axios.delete(`http://192.168.1.120:4000/books/${bookId}`);
-      setBooks(prevBooks => prevBooks.filter(book => book.id !== bookId));
-      Alert.alert('Éxito', 'Libro eliminado correctamente');
-    } catch (error) {
-      console.error('Error al eliminar el libro:', error);
-      Alert.alert('Error', 'Hubo un error al eliminar el libro');
-    }
+  const handleDelete = bookId => {
+    console.log(bookId, 'BOOK ID');
+    axios
+      .delete(`http://192.168.1.120:4000/books/${bookId}`)
+      .then(response => {
+        setBooks(prevBooks => prevBooks.filter(book => book.id !== bookId));
+        Alert.alert('Éxito', 'Libro eliminado correctamente');
+      })
+      .catch(error => {
+        console.error('Error al eliminar el libro:', error);
+        Alert.alert('Error', 'Hubo un error al eliminar el libro');
+      });
   };
 
   const renderItem = ({item}) => (
     <TouchableOpacity
       style={styles.itemContainer}
       onPress={() => handleOpenModal(item)}>
-      <Text style={styles.title}>{item.titulo}</Text>
-      <Text style={styles.author}>{item.autor}</Text>
-      <Text style={styles.style}>{item.estilo}</Text>
-      <Text style={styles.synopsis}>{item.sinopsis}</Text>
-      <BotonCustomizado
-        onPress={() => handleDelete(item.id)}
-        title="Eliminar"
-        customBackgroundColor={colores.delete}
-      />
+      <View>
+        <Text style={styles.title}>{item.titulo}</Text>
+        <Text style={styles.textNoTitle}>{item.autor}</Text>
+        <Text style={styles.textNoTitle}>{item.estilo}</Text>
+      </View>
+      <View style={styles.buttonContainer}>
+        <BotonCustomizado
+          onPress={() => handleDelete(item.id)}
+          title="Modificar"
+          customBackgroundColor={colores.accent}
+        />
+        <BotonCustomizado
+          onPress={() => handleDelete(item.id)}
+          title="Eliminar"
+          customBackgroundColor={colores.delete}
+        />
+      </View>
     </TouchableOpacity>
   );
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={books}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        contentContainerStyle={styles.listContainer}
-        showsVerticalScrollIndicator={false}
-      />
+    <ImageBackground
+      source={require('../assets/books.jpg')}
+      style={styles.backgroundImage}>
+      <View style={styles.container}>
+        <FlatList
+          data={books}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          contentContainerStyle={styles.listContainer}
+          showsVerticalScrollIndicator={false}
+        />
 
-      <ModalCustomizado
-        visible={modalVisible}
-        onClose={handleCloseModal}
-        book={selectedBook}
-      />
-    </View>
+        <ModalCustomizado
+          visible={modalVisible}
+          onClose={handleCloseModal}
+          book={selectedBook}
+        />
+      </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: 'white',
     paddingHorizontal: 20,
     paddingTop: 20,
   },
-  listContainer: {
-    paddingBottom: 20,
-  },
   itemContainer: {
     marginBottom: 20,
+    backgroundColor: colores.primary,
+    opacity: 0.9,
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 10,
+    borderColor: colores.accent,
+    borderRadius: 18,
+    padding: 18,
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  author: {
-    fontSize: 16,
-    marginBottom: 5,
-  },
-  style: {
-    fontSize: 16,
-    marginBottom: 5,
-  },
-  synopsis: {
-    fontSize: 16,
-    marginBottom: 10,
-  },
-  deleteButton: {
-    backgroundColor: 'red',
-    padding: 10,
-    borderRadius: 5,
-    alignSelf: 'flex-end',
-  },
-  deleteText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colores.primary,
-    padding: 40,
-  },
-  texModalTitulo: {
     color: colores.textPrimary,
-    fontSize: 40,
-    textAlign: 'center',
-  },
-  texModal: {
-    color: colores.textPrimary,
-    paddingBottom: 50,
-    fontSize: 20,
-    textAlign: 'center',
+    fontWeight: 'bold',
     fontStyle: 'italic',
+    textAlign: 'center',
+  },
+  textNoTitle: {
+    fontSize: 14,
+    color: colores.textPrimary,
+    textAlign: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    gap: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
