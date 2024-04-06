@@ -12,21 +12,13 @@ import axios from 'axios';
 import colores from '../utils/colores';
 import ModalCustomizado from '../components/ModalCustomizado';
 import BotonCustomizado from '../components/BotonCustomizado';
+import {ModalEditarLibro} from '../components/ModalEditarLibro';
 
 export const Home = () => {
   const [books, setBooks] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalEditVisible, setModalEditVisible] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
-
-  const handleOpenModal = book => {
-    setSelectedBook(book);
-    setModalVisible(true);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedBook(null);
-    setModalVisible(false);
-  };
 
   useEffect(() => {
     fetchBooks();
@@ -40,6 +32,30 @@ export const Home = () => {
       console.error('Error al obtener los libros:', error);
     }
   };
+
+  const handleOpenModal = book => {
+    setSelectedBook(book);
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedBook(null);
+    setModalVisible(false);
+  };
+
+  const handleOpenEditModal = book => {
+    setSelectedBook(book);
+    setModalEditVisible(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setSelectedBook(null);
+    setModalEditVisible(false);
+  };
+
+  /* const handleEdit = book => {
+    setSelectedBook(book);
+  }; */
 
   const handleDelete = bookId => {
     console.log(bookId, 'BOOK ID');
@@ -66,7 +82,7 @@ export const Home = () => {
       </View>
       <View style={styles.buttonContainer}>
         <BotonCustomizado
-          onPress={() => handleDelete(item.id)}
+          onPress={handleOpenEditModal}
           title="Modificar"
           customBackgroundColor={colores.accent}
         />
@@ -97,6 +113,12 @@ export const Home = () => {
           onClose={handleCloseModal}
           book={selectedBook}
         />
+
+        <ModalEditarLibro
+          visible={modalEditVisible}
+          book={selectedBook}
+          onClose={handleCloseEditModal}
+        />
       </View>
     </ImageBackground>
   );
@@ -110,7 +132,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    // backgroundColor: 'white',
     paddingHorizontal: 20,
     paddingTop: 20,
   },

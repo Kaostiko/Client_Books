@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     color: colores.textPrimary,
     fontSize: 40,
     textAlign: 'center',
+    marginBottom: 55,
   },
   texModal: {
     color: colores.textPrimary,
