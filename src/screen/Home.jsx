@@ -43,9 +43,19 @@ export const Home = () => {
     setModalVisible(false);
   };
 
-  const handleOpenEditModal = book => {
-    setSelectedBook(book);
-    setModalEditVisible(true);
+  const handleOpenEditModal = async bookId => {
+    try {
+      const response = await axios.get(
+        `http://192.168.1.120:4000/books/${bookId}`,
+      );
+      const selectedBookData = {id: bookId, ...response.data};
+      setSelectedBook(selectedBookData);
+      console.log('LIBRO SELECCIONADO', selectedBookData);
+      setModalEditVisible(true);
+    } catch (error) {
+      console.error('Error al obtener la información del libro:', error);
+      Alert.alert('Error', 'Hubo un error al obtener la información del libro');
+    }
   };
 
   const handleCloseEditModal = () => {
@@ -55,8 +65,8 @@ export const Home = () => {
 
   /* const handleEdit = book => {
     setSelectedBook(book);
-  }; */
-
+  };  */
+  // console.log('LIBROS', books);
   const handleDelete = bookId => {
     console.log(bookId, 'BOOK ID');
     axios
@@ -82,7 +92,7 @@ export const Home = () => {
       </View>
       <View style={styles.buttonContainer}>
         <BotonCustomizado
-          onPress={handleOpenEditModal}
+          onPress={() => handleOpenEditModal(item.id)}
           title="Modificar"
           customBackgroundColor={colores.accent}
         />
@@ -116,8 +126,9 @@ export const Home = () => {
 
         <ModalEditarLibro
           visible={modalEditVisible}
-          book={selectedBook}
           onClose={handleCloseEditModal}
+          bookData={selectedBook}
+          fetchBooks={fetchBooks()}
         />
       </View>
     </ImageBackground>

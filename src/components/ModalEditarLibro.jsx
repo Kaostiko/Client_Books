@@ -12,21 +12,60 @@ import {
 import axios from 'axios';
 import colores from '../utils/colores';
 
-export const ModalEditarLibro = ({visible, book, onClose}) => {
-  const [editedBook, setEditedBook] = useState(book);
+const initialValue = {
+  titulo: '',
+  autor: '',
+  estilo: '',
+  sinopsis: '',
+};
+
+export const ModalEditarLibro = ({visible, onClose, bookData, fetchBooks}) => {
+  const [editedBook, setEditedBook] = useState(bookData);
+  // console.log('EDIT DEL LIBRO', editedBook.id);
+  // console.log('BOOK ID ', book?.id);
+  // console.log('BOOKDATA EDIT', bookData);
+  useEffect(() => {
+    if (bookData) {
+      setEditedBook(bookData);
+    }
+  }, [bookData]);
+  /* console.log('Dentro MODAL: ', bookData);
+  console.log('EStado dentro MODAL: ', editedBook); */
+  /* const fetchBookDetails = async bookId => {
+    try {
+      // console.log('BOOK ID :', bookId);
+      const response = await axios.get(
+        `http://192.168.1.120:4000/books/${bookId}`,
+      );
+      setEditedBook(response.data);
+    } catch (error) {
+      console.error('Error al obtener los detalles del libro:', error);
+      // Puedes manejar el error de alguna manera, por ejemplo, mostrando un mensaje al usuario.
+    }
+  };
+
+  useEffect(() => {
+    if (visible && bookId) {
+      fetchBookDetails(bookId);
+    }
+  }, [visible, bookId]); */
   /* console.log(book, 'BOOK');
 
   console.log(editedBook, 'Edit'); */
 
-  const handleChange = (field, value) => {
-    setEditedBook({...editedBook, [field]: value});
+  const handleChange = (name, value) => {
+    setEditedBook({...editedBook, [name]: value});
   };
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://192.168.1.120:4000/books/${book.id}`, editedBook);
+      await axios.put(
+        `http://192.168.1.120:4000/books/${editedBook.id}`,
+        editedBook,
+      );
       Alert.alert('Éxito', 'Libro actualizado correctamente');
       onClose();
+      fetchBooks;
     } catch (error) {
       console.error('Error al actualizar el libro:', error);
       Alert.alert('Error', 'Hubo un error al actualizar el libro');
