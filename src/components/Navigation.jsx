@@ -2,14 +2,12 @@ import React from 'react';
 import {Image, Pressable, View, StyleSheet} from 'react-native';
 import colores from '../utils/colores';
 
-export const Navigation = ({setShowScreenA, showScreenA}) => {
+export const Navigation = ({setShowScreenA}) => {
   const cambioPantallaAdd = () => {
     setShowScreenA(true);
-    console.log('Estado de showScreen', showScreenA);
   };
   const cambioPantallaHome = () => {
     setShowScreenA(false);
-    console.log('Estado de showScreen', showScreenA);
   };
   return (
     <View style={styles.container}>

@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import colores from '../utils/colores';
+import BotonCustomizado from '../components/BotonCustomizado';
 
 export const AddBook = () => {
   const initialValues = {
@@ -28,17 +29,12 @@ export const AddBook = () => {
         setError('Faltan campos obligatorios');
         return;
       }
-
       setError('');
-
       // Envía la solicitud al servidor para crear un nuevo libro
       const response = await axios.post(
         'http://192.168.1.120:4000/books',
         book,
       );
-
-      console.log(response.data);
-
       // Muestra un mensaje de éxito
       Alert.alert('Éxito', 'Libro creado correctamente');
 
@@ -86,9 +82,11 @@ export const AddBook = () => {
           onChangeText={text => setBook({...book, sinopsis: text})}
           multiline
         />
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Guardar</Text>
-        </TouchableOpacity>
+        <BotonCustomizado
+          onPress={handleSubmit}
+          title="Guardar"
+          customBackgroundColor={colores.accent}
+        />
       </View>
     </ImageBackground>
   );
@@ -122,16 +120,6 @@ const styles = StyleSheet.create({
     backgroundColor: colores.primary,
     opacity: 0.7,
     color: 'white',
-  },
-  button: {
-    backgroundColor: colores.accent,
-    padding: 10,
-    borderRadius: 8,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    textAlign: 'center',
   },
   error: {
     color: 'red',

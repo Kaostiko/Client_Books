@@ -63,12 +63,7 @@ export const Home = () => {
     setModalEditVisible(false);
   };
 
-  /* const handleEdit = book => {
-    setSelectedBook(book);
-  };  */
-  // console.log('LIBROS', books);
   const handleDelete = bookId => {
-    console.log(bookId, 'BOOK ID');
     axios
       .delete(`http://192.168.1.120:4000/books/${bookId}`)
       .then(response => {
@@ -114,7 +109,6 @@ export const Home = () => {
           data={books}
           renderItem={renderItem}
           keyExtractor={item => item.id}
-          contentContainerStyle={styles.listContainer}
           showsVerticalScrollIndicator={false}
         />
 
