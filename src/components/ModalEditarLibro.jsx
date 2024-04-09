@@ -20,7 +20,7 @@ export const ModalEditarLibro = ({visible, onClose, bookData, fetchBooks}) => {
   const handleUpdate = async () => {
     try {
       await axios.put(
-        `http://192.168.1.120:4000/books/${editedBook.id}`,
+        `${process.env.EXPO_PUBLIC_API_URL}/books/${editedBook.id}`,
         editedBook,
       );
       Alert.alert('Éxito', 'Libro actualizado correctamente');

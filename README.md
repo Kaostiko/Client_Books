@@ -18,6 +18,8 @@ git clone https://github.com/Kaostiko/Client_Books.git
 npm install
 ```
 
+3. Crear archivo .env con la variable de entorno: EXPO_PUBLIC_API_URL con la IP para la conexión con el back.
+
 ## Uso
 
 Para ejecutar la aplicación en un emulador o dispositivo, utiliza uno de los siguientes comandos, dependiendo de tu plataforma:

@@ -32,7 +32,7 @@ export const AddBook = () => {
       setError('');
       // Envía la solicitud al servidor para crear un nuevo libro
       const response = await axios.post(
-        'http://192.168.1.120:4000/books',
+        `${process.env.EXPO_PUBLIC_API_URL}/books`,
         book,
       );
       // Muestra un mensaje de éxito

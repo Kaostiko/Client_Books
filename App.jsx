@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, SafeAreaView, StatusBar, Text, View} from 'react-native';
+import {StyleSheet, SafeAreaView, StatusBar, View} from 'react-native';
 import {Navigation} from './src/components/Navigation';
 import colores from './src/utils/colores';
 import {Home} from './src/screen/Home';

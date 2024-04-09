@@ -22,11 +22,15 @@ export const Home = () => {
 
   useEffect(() => {
     fetchBooks();
+    console.log('Me ejecuto dentro del useeffect');
   }, []);
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get('http://192.168.1.120:4000/books');
+      console.log('Me ejecuto');
+      const response = await axios.get(
+        `${process.env.EXPO_PUBLIC_API_URL}/books`,
+      );
       setBooks(response.data);
     } catch (error) {
       console.error('Error al obtener los libros:', error);
@@ -46,7 +50,7 @@ export const Home = () => {
   const handleOpenEditModal = async bookId => {
     try {
       const response = await axios.get(
-        `http://192.168.1.120:4000/books/${bookId}`,
+        `${process.env.EXPO_PUBLIC_API_URL}/books/${bookId}`,
       );
       const selectedBookData = {id: bookId, ...response.data};
       setSelectedBook(selectedBookData);
@@ -65,7 +69,7 @@ export const Home = () => {
 
   const handleDelete = bookId => {
     axios
-      .delete(`http://192.168.1.120:4000/books/${bookId}`)
+      .delete(`${process.env.EXPO_PUBLIC_API_URL}/books/${bookId}`)
       .then(response => {
         setBooks(prevBooks => prevBooks.filter(book => book.id !== bookId));
         Alert.alert('Éxito', 'Libro eliminado correctamente');
@@ -122,7 +126,7 @@ export const Home = () => {
           visible={modalEditVisible}
           onClose={handleCloseEditModal}
           bookData={selectedBook}
-          fetchBooks={fetchBooks()}
+          // fetchBooks={fetchBooks()}
         />
       </View>
     </ImageBackground>
